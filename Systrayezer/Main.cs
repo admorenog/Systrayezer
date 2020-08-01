@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Systrayezer
@@ -18,6 +11,8 @@ namespace Systrayezer
         {
             InitializeComponent();
             UserConfig userConfig = new UserConfig();
+            // If the user checks "apply hotkeys at start" we should apply the hotkeys
+            // here, maybe we can add an startup access to start this minimized or hidden.
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -41,10 +36,14 @@ namespace Systrayezer
             // register the control + alt + F12 combination as hot key.
             hook.RegisterHotKey(Systrayezer.ModifierKeys.Control | Systrayezer.ModifierKeys.Alt, Keys.F12);
         }
+
         void hook_KeyPressed(object sender, KeyPressedEventArgs e)
         {
             // show the keys pressed in a label.
             label1.Text = e.Modifier.ToString() + " + " + e.Key.ToString();
+
+            // We should detect the window not only by name, because there are applications
+            // that changes their name with the status of the process.
             if(!hidden)
             {
                 ExternalWindowManager.hideWindow("Descargas");
