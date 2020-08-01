@@ -84,7 +84,7 @@ namespace Systrayezer
         public void RegisterHotKey(ModifierKeys modifier, Keys key)
         {
             // increment the counter.
-            _currentId = _currentId + 1;
+            _currentId += 1;
 
             // register the hot key.
             if (!RegisterHotKey(_window.Handle, _currentId, (uint)modifier, (uint)key))

@@ -37,6 +37,9 @@ namespace Systrayezer
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnApplyHotkeys = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // trayIcon
@@ -48,28 +51,51 @@ namespace Systrayezer
             // 
             // btnApplyHotkeys
             // 
-            this.btnApplyHotkeys.Location = new System.Drawing.Point(450, 315);
+            this.btnApplyHotkeys.Location = new System.Drawing.Point(338, 256);
+            this.btnApplyHotkeys.Margin = new System.Windows.Forms.Padding(2);
             this.btnApplyHotkeys.Name = "btnApplyHotkeys";
-            this.btnApplyHotkeys.Size = new System.Drawing.Size(125, 30);
+            this.btnApplyHotkeys.Size = new System.Drawing.Size(94, 24);
             this.btnApplyHotkeys.TabIndex = 0;
             this.btnApplyHotkeys.Text = "Apply hotkeys";
             this.btnApplyHotkeys.UseVisualStyleBackColor = true;
             this.btnApplyHotkeys.Click += new System.EventHandler(this.btnApplyHotkeys_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 256);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "label1";
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(13, 13);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(410, 230);
+            this.dataGridView1.TabIndex = 2;
+            // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(582, 353);
+            this.ClientSize = new System.Drawing.Size(436, 287);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnApplyHotkeys);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Systrayezer";
-            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.Load += new System.EventHandler(this.Main_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -82,6 +108,8 @@ namespace Systrayezer
 
         private System.Windows.Forms.NotifyIcon trayIcon;
         private System.Windows.Forms.Button btnApplyHotkeys;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
 
