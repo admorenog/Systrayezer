@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -14,7 +15,8 @@ namespace Systrayezer.Config
         public string getAppBy { get; set; }
         public string app { get; set; }
         public bool hidden { get; set; } = false;
-        public int id { get; set; }
+        public int eventKeyId { get; set; }
+        public Collection<IntPtr> windowHandlers { get; set; } = new Collection<IntPtr>();
         public Binding(XElement configLine)
         {
             string[] modifiersAsString = configLine.Elements()
@@ -50,6 +52,15 @@ namespace Systrayezer.Config
             key = keyToSet;
             getAppBy = configLine.Elements().Where(x => x.Name == "app").First().Attribute("refBy").Value;
             app = configLine.Elements().Where(x => x.Name == "app").First().Value;
+
+            if (windowHandlers.Count() == 0)
+            {
+                switch (getAppBy)
+                {
+                    case "WindowName": windowHandlers = ExternalWindowManager.GetAllWindowByCaption(app); break;
+                    case "ProcessName": windowHandlers = ExternalWindowManager.GetAllWindowsFromProcessName(app); break;
+                }
+            }
         }
 
         public ModifierKeys GetCombinationOfModifierKeys()

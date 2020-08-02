@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Systrayezer
@@ -59,30 +61,57 @@ namespace Systrayezer
         [DllImport("user32.dll")]
         static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-        public static void hideWindow(string caption)
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string lclassName, string windowTitle);
+
+        public static void hideWindows(Collection<IntPtr> windowHandlers)
         {
-            IntPtr handle = FindWindow(null, caption);
+            foreach (IntPtr windowHandle in windowHandlers)
+            {
+                int style = GetWindowLong(windowHandle, GWL_EXSTYLE);
 
-            int style = GetWindowLong(handle, GWL_EXSTYLE);
-
-            style |= WS_EX_APPWINDOW;
-            SetWindowLong(handle, GWL_EXSTYLE, style);
-            ShowWindow(handle, SW_SHOW);
-            ShowWindow(handle, SW_HIDE);
+                style |= WS_EX_APPWINDOW;
+                SetWindowLong(windowHandle, GWL_EXSTYLE, style);
+                ShowWindow(windowHandle, SW_SHOW);
+                ShowWindow(windowHandle, SW_HIDE);
+            }
         }
 
-        public static void showWindow(string caption)
+        public static void showWindows(Collection<IntPtr> windowHandlers)
         {
+            foreach(IntPtr windowHandle in windowHandlers)
+            {
+                int style = GetWindowLong(windowHandle, GWL_EXSTYLE);
 
-            IntPtr handle = FindWindow(null, caption);
+                style &= ~(WS_EX_APPWINDOW);
 
-            int style = GetWindowLong(handle, GWL_EXSTYLE);
+                SetWindowLong(windowHandle, GWL_EXSTYLE, style);
+                ShowWindow(windowHandle, SW_HIDE);
+                ShowWindow(windowHandle, SW_SHOW);
+            }
+        }
 
-            style &= ~(WS_EX_APPWINDOW);
+        public static Collection<IntPtr> GetAllWindowsFromProcessName(string processName)
+        {
+            Process[] processes = Process.GetProcessesByName(processName);
 
-            SetWindowLong(handle, GWL_EXSTYLE, style);
-            ShowWindow(handle, SW_HIDE);
-            ShowWindow(handle, SW_SHOW);
+            Collection<IntPtr> windowsHandle = new Collection<IntPtr>();
+
+            foreach (Process p in processes)
+            {
+                IntPtr windowHandle = p.MainWindowHandle;
+                windowsHandle.Add(windowHandle);
+            }
+
+            return windowsHandle;
+        }
+
+        public static Collection<IntPtr> GetAllWindowByCaption(string caption)
+        {
+            IntPtr windowHandle = FindWindow(null, caption);
+            Collection<IntPtr> windowHandlers = new Collection<IntPtr>();
+            windowHandlers.Add(windowHandle);
+            return windowHandlers;
         }
     }
 }

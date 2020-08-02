@@ -16,4 +16,4 @@ Sometimes we work with applications that don't allow "minimize to Systray". This
 - Remove hotkeys.
 - Apply a new created hotkey.
 - Hide our systray icon.
-- Get window by name (done) or by identifier (or anything else that is not bassed in the window name).
+- Get process name by selecting a window (something like spy++), some windows have different process name in Task manager and we cannot reach it.

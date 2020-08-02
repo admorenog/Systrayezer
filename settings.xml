@@ -1,0 +1,12 @@
+<settings>
+	<bindings>
+		<binding>
+			<modifiers>
+				<key>ctrl</key>
+				<key>alt</key>
+			</modifiers>
+			<key>F12</key>
+			<app refBy="ProcessName">WINDOWSTERMINAL</app>
+		</binding>
+	</bindings>
+</settings>

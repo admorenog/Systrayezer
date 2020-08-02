@@ -44,18 +44,17 @@ namespace Systrayezer
                 {
                     if (!binding.hidden)
                     {
-                        ExternalWindowManager.hideWindow(binding.app);
+                        ExternalWindowManager.hideWindows(binding.windowHandlers);
                     }
                     else
                     {
-                        ExternalWindowManager.showWindow(binding.app);
+                        ExternalWindowManager.showWindows(binding.windowHandlers);
                     }
                     binding.hidden = !binding.hidden;
                 });
 
-                binding.id = hook.RegisterHotKey(binding.GetCombinationOfModifierKeys(), binding.key);
+                binding.eventKeyId = hook.RegisterHotKey(binding.GetCombinationOfModifierKeys(), binding.key);
             }
-
         }
     }
 }
