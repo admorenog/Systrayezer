@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace Systrayezer
@@ -15,7 +13,7 @@ namespace Systrayezer
         private string configFileName = "settings";
         private string configFileExtension = ".xml";
         private static string configAppPath = "";
-        private static ConfigSetting[] config;
+        public static ConfigSettings config;
         
         public UserConfig()
         {
@@ -24,22 +22,21 @@ namespace Systrayezer
             config = ReadConfig(configAppPath);
         }
 
-        private ConfigSetting[] ReadConfig(string configFilePath)
+        private ConfigSettings ReadConfig(string configFilePath)
         {
-            config = new ConfigSetting[0];
+            config = new ConfigSettings();
 
             if (File.Exists(configFilePath))
             {
-                // TODO: change for read json or xml config
                 XElement doc = XElement.Load(configFilePath);
                 IEnumerable<XElement> bindings = doc.Elements("bindings").Elements();
 
                 int countOfBindings = bindings.Count<XElement>();
 
-                config = new ConfigSetting[countOfBindings];
+                config = new ConfigSettings();
                 for(int idxConfigLine = 0; idxConfigLine < countOfBindings; idxConfigLine++)
                 {
-                    config[idxConfigLine] = new ConfigSetting("binding", bindings.ElementAt(idxConfigLine));
+                    config.Add(new Config.Binding(bindings.ElementAt(idxConfigLine)));
                 }
             }
 

@@ -58,7 +58,7 @@ namespace Systrayezer
             this.btnApplyHotkeys.TabIndex = 0;
             this.btnApplyHotkeys.Text = "Apply hotkeys";
             this.btnApplyHotkeys.UseVisualStyleBackColor = true;
-            this.btnApplyHotkeys.Click += new System.EventHandler(this.btnApplyHotkeys_Click);
+            this.btnApplyHotkeys.Click += new System.EventHandler(this.BtnApplyHotkeys_Click);
             // 
             // label1
             // 
