@@ -8,14 +8,22 @@ namespace Systrayezer
 {
     public partial class Main : Form
     {
-        bool hidden = false;
         private KeyboardHook hook = new KeyboardHook();
         public Main()
         {
             InitializeComponent();
-            UserConfig userConfig = new UserConfig();
-            // If the user checks "apply hotkeys at start" we should apply the hotkeys
-            // here, maybe we can add an startup access to start this minimized or hidden.
+            new UserConfig();
+
+            Collection<Config.Binding> bindings = UserConfig.config.bindings;
+
+            for (int idxBinding = 0; idxBinding < bindings.Count; idxBinding++)
+            {
+                Config.Binding binding = bindings.ElementAt(idxBinding);
+                if (binding.autostart)
+                {
+                    applyBinding(binding);
+                }
+            }
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -39,21 +47,38 @@ namespace Systrayezer
             for(int idxBinding = 0; idxBinding < bindings.Count; idxBinding++)
             {
                 Config.Binding binding = bindings.ElementAt(idxBinding);
-                
-                hook.KeyPressed += new EventHandler<KeyPressedEventArgs>((object eventSender, KeyPressedEventArgs ev) =>
+                if(binding.eventKeyId == 0)
                 {
-                    if (!binding.hidden)
-                    {
-                        ExternalWindowManager.hideWindows(binding.windowHandlers);
-                    }
-                    else
-                    {
-                        ExternalWindowManager.showWindows(binding.windowHandlers);
-                    }
-                    binding.hidden = !binding.hidden;
-                });
+                    applyBinding(binding);
+                }
+            }
+        }
 
-                binding.eventKeyId = hook.RegisterHotKey(binding.GetCombinationOfModifierKeys(), binding.key);
+        void applyBinding(Config.Binding binding)
+        {
+            hook.KeyPressed += new EventHandler<KeyPressedEventArgs>((object eventSender, KeyPressedEventArgs ev) =>
+            {
+                if (!binding.hidden)
+                {
+                    ExternalWindowManager.hideWindows(binding.windowHandlers);
+                }
+                else
+                {
+                    ExternalWindowManager.showWindows(binding.windowHandlers);
+                }
+                binding.hidden = !binding.hidden;
+            });
+
+            binding.eventKeyId = hook.RegisterHotKey(binding.GetCombinationOfModifierKeys(), binding.key);
+
+            if (binding.starthide)
+            {
+                ExternalWindowManager.hideWindows(binding.windowHandlers);
+            }
+
+            if (binding.systray)
+            {
+                // TODO: extract the app icon to make a systray icon with restore/hidesystray/close options.
             }
         }
     }

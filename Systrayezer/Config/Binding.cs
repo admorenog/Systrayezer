@@ -15,7 +15,10 @@ namespace Systrayezer.Config
         public string getAppBy { get; set; }
         public string app { get; set; }
         public bool hidden { get; set; } = false;
-        public int eventKeyId { get; set; }
+        public int eventKeyId { get; set; } = 0;
+        public bool autostart { get; set; } = false;
+        public bool starthide { get; set; } = false;
+        public bool systray { get; set; } = true;
         public Collection<IntPtr> windowHandlers { get; set; } = new Collection<IntPtr>();
         public Binding(XElement configLine)
         {
@@ -52,6 +55,9 @@ namespace Systrayezer.Config
             key = keyToSet;
             getAppBy = configLine.Elements().Where(x => x.Name == "app").First().Attribute("refBy").Value;
             app = configLine.Elements().Where(x => x.Name == "app").First().Value;
+            autostart = bool.Parse(configLine.Elements().Where(x => x.Name == "autostart").First().Value);
+            starthide = bool.Parse(configLine.Elements().Where(x => x.Name == "starthide").First().Value);
+            systray = bool.Parse(configLine.Elements().Where(x => x.Name == "systray").First().Value);
 
             if (windowHandlers.Count() == 0)
             {
