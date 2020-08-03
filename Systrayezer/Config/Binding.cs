@@ -41,7 +41,8 @@ namespace Systrayezer.Config
                 }
             }
 
-            string assignedKey = configLine.Elements().Where(x => x.Name == "key").First().Value;
+            string assignedKey = configLine.Elements().Where(x => x.Name == "key").First().Value.ToUpper();
+            var values = Enum.GetValues(typeof(Keys));
             Keys keyToSet;
             try
             {

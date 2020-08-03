@@ -81,7 +81,7 @@ namespace Systrayezer
         {
             // increment the counter.
             _currentId += 1;
-
+            UnRegisterHotKey(_currentId);
             // register the hot key.
             if (!RegisterHotKey(_window.Handle, _currentId, (uint)modifier, (uint)key))
                 throw new InvalidOperationException("Couldn’t register the hot key.");
@@ -95,8 +95,7 @@ namespace Systrayezer
         public int UnRegisterHotKey(int id)
         {
             // register the hot key.
-            if (!UnregisterHotKey(_window.Handle, id))
-                throw new InvalidOperationException("Couldn’t unregister the hot key.");
+            UnregisterHotKey(_window.Handle, id);
             return id;
         }
 
