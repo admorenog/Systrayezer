@@ -79,8 +79,7 @@ namespace Systrayezer
 
             if (binding.systray)
             {
-                // TODO: extract the app icon to make a systray icon with restore/hidesystray/close options.
-                NotifyIcon trayIcon = new NotifyIcon(this.components);
+                NotifyIcon trayIcon = new NotifyIcon(components);
                 
                 Icon ico = GetAppIcon(binding.windowHandlers.ElementAt(0));
                 System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
@@ -88,11 +87,40 @@ namespace Systrayezer
 
                 trayIcon.Text = binding.app;
                 trayIcon.Visible = true;
+
+                ContextMenu contextMenu = new ContextMenu();
+                MenuItem menuItem1 = new MenuItem("Restore", (object sender, EventArgs ev) => {
+                    ExternalWindowManager.showWindows(binding.windowHandlers);
+                });
+                MenuItem menuItem2 = new MenuItem("Hide systray", (object sender, EventArgs ev) => {
+                    trayIcon.Visible = false;
+                });
+                MenuItem menuItem3 = new MenuItem("Close", (object sender, EventArgs ev) => {
+                    foreach(IntPtr windowHandler in binding.windowHandlers)
+                    {
+                        CloseWindow(windowHandler);
+                    }
+                    trayIcon.Visible = false;
+                    hook.UnRegisterHotKey(binding.eventKeyId);
+                });
+
+                // Initialize contextMenu1
+                contextMenu.MenuItems.AddRange(new MenuItem[] { menuItem1, menuItem2, menuItem3 });
+                trayIcon.ContextMenu = contextMenu;
                 trayIcon.Click += new EventHandler((object sender, EventArgs e) =>
                 {
                     // check right click to open context
                 });
             }
+        }
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
+
+        private const UInt32 WM_CLOSE = 0x0010;
+
+        void CloseWindow(IntPtr hwnd)
+        {
+            SendMessage(hwnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
         }
 
         public const int GCL_HICONSM = -34;
@@ -139,6 +167,15 @@ namespace Systrayezer
             Icon icn = Icon.FromHandle(iconHandle);
 
             return icn;
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if ((components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose();
         }
     }
 }
