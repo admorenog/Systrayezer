@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -19,7 +20,9 @@ namespace Systrayezer.Config
         public bool autostart { get; set; } = false;
         public bool starthide { get; set; } = false;
         public bool systray { get; set; } = true;
+
         public Collection<IntPtr> windowHandlers { get; set; } = new Collection<IntPtr>();
+
         public Binding(XElement configLine)
         {
             string[] modifiersAsString = configLine.Elements()
@@ -78,6 +81,42 @@ namespace Systrayezer.Config
                 combination |= modifier;
             }
             return combination;
+        }
+
+        public void CreateSystray(KeyboardHook hook)
+        {
+            NotifyIcon trayIcon = new NotifyIcon();
+
+            try {
+                Icon ico = ExternalWindowManager.GetAppIcon(windowHandlers.ElementAt(0));
+                trayIcon.Icon = ico;
+            }
+            catch (Exception) { }
+
+            trayIcon.Text = app;
+            trayIcon.Visible = true;
+
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem menuItemRestore = new MenuItem("Restore", (object sender, EventArgs ev) => {
+                ExternalWindowManager.showWindows(windowHandlers);
+            });
+            MenuItem menuItemHide = new MenuItem("Hide systray", (object sender, EventArgs ev) => {
+                trayIcon.Visible = false;
+            });
+            MenuItem menuItemClose = new MenuItem("Close", (object sender, EventArgs ev) => {
+                foreach (IntPtr windowHandler in windowHandlers)
+                {
+                    ExternalWindowManager.CloseWindow(windowHandler);
+                }
+                trayIcon.Dispose();
+                hook.UnRegisterHotKey(eventKeyId);
+            });
+
+            contextMenu.MenuItems.AddRange(new MenuItem[] { menuItemRestore, menuItemHide, menuItemClose });
+            trayIcon.ContextMenu = contextMenu;
+            trayIcon.Click += new EventHandler((object sender, EventArgs e) => {
+                ExternalWindowManager.showWindows(windowHandlers);
+            });
         }
     }
 }

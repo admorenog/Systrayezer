@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace Systrayezer
 {
     class ExternalWindowManager
     {
-        [DllImport("user32.dll")]
-        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-        [DllImport("user32.dll")]
-        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
         /**
          * We can clean the unused vars when we reach the perfect functionality.
          */
@@ -30,15 +25,55 @@ namespace Systrayezer
         private const int SW_SHOWDEFAULT = 10;
         private const int SW_FORCEMINIMIZE = 11;
 
-
         private const int GWL_STYLE = -16;
         private const int GWL_EXSTYLE = -20;
         private const int WS_VISIBLE = 0x10000000;
         private const int WS_EX_TOOLWINDOW = 0x00000080;
         private const int WS_EX_APPWINDOW = 0x00040000;
 
+        public const int GCL_HICONSM = -34;
+        public const int GCL_HICON = -14;
+
+        public const int ICON_SMALL = 0;
+        public const int ICON_BIG = 1;
+        public const int ICON_SMALL2 = 2;
+
+        public const int WM_GETICON = 0x7F;
+
+        private const UInt32 WM_CLOSE = 0x0010;
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
         [DllImport("user32.dll")]
         static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
+        private static extern int SetWindowLong32(HandleRef hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
+        private static extern IntPtr SetWindowLongPtr64(HandleRef hWnd, int nIndex, IntPtr dwNewLong);
+
+        [DllImport("user32.dll")]
+        static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string lclassName, string windowTitle);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll", EntryPoint = "GetClassLong")]
+        public static extern uint GetClassLongPtr32(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll", EntryPoint = "GetClassLongPtr")]
+        public static extern IntPtr GetClassLongPtr64(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
+        static extern IntPtr SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
         /**
          * We should def all this winapi functions to detect if the
@@ -52,17 +87,38 @@ namespace Systrayezer
                 return new IntPtr(SetWindowLong32(hWnd, nIndex, dwNewLong.ToInt32()));
         }
 
-        [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
-        private static extern int SetWindowLong32(HandleRef hWnd, int nIndex, int dwNewLong);
+        public static void CloseWindow(IntPtr hwnd)
+        {
+            SendMessage(hwnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+        }
 
-        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
-        private static extern IntPtr SetWindowLongPtr64(HandleRef hWnd, int nIndex, IntPtr dwNewLong);
+        public static IntPtr GetClassLongPtr(IntPtr hWnd, int nIndex)
+        {
+            if (IntPtr.Size > 4)
+                return GetClassLongPtr64(hWnd, nIndex);
+            else
+                return new IntPtr(GetClassLongPtr32(hWnd, nIndex));
+        }
 
-        [DllImport("user32.dll")]
-        static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        public static Icon GetAppIcon(IntPtr hwnd)
+        {
+            IntPtr iconHandle = SendMessage(hwnd, WM_GETICON, ICON_SMALL2, 0);
+            if (iconHandle == IntPtr.Zero)
+                iconHandle = SendMessage(hwnd, WM_GETICON, ICON_SMALL, 0);
+            if (iconHandle == IntPtr.Zero)
+                iconHandle = SendMessage(hwnd, WM_GETICON, ICON_BIG, 0);
+            if (iconHandle == IntPtr.Zero)
+                iconHandle = GetClassLongPtr(hwnd, GCL_HICON);
+            if (iconHandle == IntPtr.Zero)
+                iconHandle = GetClassLongPtr(hwnd, GCL_HICONSM);
 
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string lclassName, string windowTitle);
+            if (iconHandle == IntPtr.Zero)
+                return null;
+
+            Icon icn = Icon.FromHandle(iconHandle);
+
+            return icn;
+        }
 
         public static void hideWindows(Collection<IntPtr> windowHandlers)
         {
