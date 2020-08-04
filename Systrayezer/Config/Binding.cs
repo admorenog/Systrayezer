@@ -21,6 +21,8 @@ namespace Systrayezer.Config
         public bool starthide { get; set; } = false;
         public bool systray { get; set; } = true;
 
+        public string Hotkey { get { return GetModifiers() + "+" + key.ToString(); } }
+
         public Collection<IntPtr> windowHandlers { get; set; } = new Collection<IntPtr>();
 
         public Binding(XElement configLine)
@@ -76,6 +78,26 @@ namespace Systrayezer.Config
             foreach(ModifierKeys modifier in modifiers)
             {
                 combination |= modifier;
+            }
+            return combination;
+        }
+
+        private string GetModifiers()
+        {
+            string combination = "";
+            foreach (ModifierKeys modifier in modifiers)
+            {
+                string modifierName = "";
+
+                switch(modifier)
+                {
+                    case ModifierKeys.Alt: modifierName = "Alt"; break;
+                    case ModifierKeys.Control: modifierName = "Control"; break;
+                    case ModifierKeys.Shift: modifierName = "Shift"; break;
+                    case ModifierKeys.Win: modifierName = "Win"; break;
+                }
+
+                combination += modifierName;
             }
             return combination;
         }

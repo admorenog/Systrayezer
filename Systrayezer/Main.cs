@@ -28,7 +28,14 @@ namespace Systrayezer
         private void Main_Load(object sender, EventArgs e)
         {
             Collection<Config.Binding> bindings = UserConfig.config.bindings;
+            dataGridBindings.AutoGenerateColumns = true;
             dataGridBindings.DataSource = bindings;
+            dataGridBindings.AutoResizeColumns();
+
+            DataGridViewColumn column = new DataGridViewTextBoxColumn();
+            column.DataPropertyName = "GetHotkey";
+            column.Name = "HotKey";
+            //dataGridBindings.Columns.Add(column);
         }
 
         private void Main_Dispose(bool disposing)
