@@ -31,7 +31,7 @@ namespace Systrayezer
                 XElement doc = XElement.Load(configFilePath);
                 IEnumerable<XElement> bindings = doc.Elements("bindings").Elements();
 
-                int countOfBindings = bindings.Count<XElement>();
+                int countOfBindings = bindings.Count();
 
                 config = new ConfigSettings();
                 for(int idxConfigLine = 0; idxConfigLine < countOfBindings; idxConfigLine++)

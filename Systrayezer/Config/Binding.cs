@@ -11,7 +11,7 @@ namespace Systrayezer.Config
     {
         int IConfigSetting.Type { get => ConfigSettings.TypeBinding; }
 
-        public ModifierKeys[] modifiers = new ModifierKeys[0];
+        private ModifierKeys[] modifiers = new ModifierKeys[0];
         public Keys key { get; set; }
         public string getAppBy { get; set; }
         public string app { get; set; }
@@ -47,12 +47,9 @@ namespace Systrayezer.Config
             string assignedKey = configLine.Elements().Where(x => x.Name == "key").First().Value.ToUpper();
             var values = Enum.GetValues(typeof(Keys));
             Keys keyToSet;
-            try
-            {
+            try {
                 Enum.TryParse(assignedKey, out keyToSet);
-            }
-            catch (Exception)
-            {
+            } catch (Exception) {
                 throw new Exception("Cannot find the key " + assignedKey);
             }
 
@@ -98,7 +95,10 @@ namespace Systrayezer.Config
 
             ContextMenu contextMenu = new ContextMenu();
             MenuItem menuItemRestore = new MenuItem("Restore", (object sender, EventArgs ev) => {
-                ExternalWindowManager.showWindows(windowHandlers);
+                if(hidden) {
+                    hidden = false;
+                    ExternalWindowManager.showWindows(windowHandlers);
+                }
             });
             MenuItem menuItemHide = new MenuItem("Hide systray", (object sender, EventArgs ev) => {
                 trayIcon.Visible = false;
@@ -115,8 +115,40 @@ namespace Systrayezer.Config
             contextMenu.MenuItems.AddRange(new MenuItem[] { menuItemRestore, menuItemHide, menuItemClose });
             trayIcon.ContextMenu = contextMenu;
             trayIcon.Click += new EventHandler((object sender, EventArgs e) => {
-                ExternalWindowManager.showWindows(windowHandlers);
+                if (hidden) {
+                    hidden = false;
+                    ExternalWindowManager.showWindows(windowHandlers);
+                }
             });
+        }
+
+
+        public void apply(KeyboardHook hook)
+        {
+            hook.KeyPressed += new EventHandler<KeyPressedEventArgs>((object eventSender, KeyPressedEventArgs ev) => {
+                if (!hidden)
+                {
+                    ExternalWindowManager.hideWindows(windowHandlers);
+                }
+                else
+                {
+                    ExternalWindowManager.showWindows(windowHandlers);
+                }
+                hidden = !hidden;
+            });
+
+            eventKeyId = hook.RegisterHotKey(GetCombinationOfModifierKeys(), key);
+
+            if (starthide)
+            {
+                hidden = true;
+                ExternalWindowManager.hideWindows(windowHandlers);
+            }
+
+            if (systray)
+            {
+                CreateSystray(hook);
+            }
         }
     }
 }

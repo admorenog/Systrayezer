@@ -20,12 +20,15 @@ namespace Systrayezer
                 Config.Binding binding = bindings.ElementAt(idxBinding);
                 if (binding.autostart)
                 {
-                    applyBinding(binding);
+                    binding.apply(hook);
                 }
             }
         }
 
-        private void Main_Load(object sender, EventArgs e) {
+        private void Main_Load(object sender, EventArgs e)
+        {
+            Collection<Config.Binding> bindings = UserConfig.config.bindings;
+            dataGridBindings.DataSource = bindings;
         }
 
         private void Main_Dispose(bool disposing)
@@ -47,36 +50,8 @@ namespace Systrayezer
                 Config.Binding binding = bindings.ElementAt(idxBinding);
                 if(binding.eventKeyId == 0)
                 {
-                    applyBinding(binding);
+                    binding.apply(hook);
                 }
-            }
-        }
-
-        void applyBinding(Config.Binding binding)
-        {
-            hook.KeyPressed += new EventHandler<KeyPressedEventArgs>((object eventSender, KeyPressedEventArgs ev) =>
-            {
-                if (!binding.hidden)
-                {
-                    ExternalWindowManager.hideWindows(binding.windowHandlers);
-                }
-                else
-                {
-                    ExternalWindowManager.showWindows(binding.windowHandlers);
-                }
-                binding.hidden = !binding.hidden;
-            });
-
-            binding.eventKeyId = hook.RegisterHotKey(binding.GetCombinationOfModifierKeys(), binding.key);
-
-            if (binding.starthide)
-            {
-                ExternalWindowManager.hideWindows(binding.windowHandlers);
-            }
-
-            if (binding.systray)
-            {
-                binding.CreateSystray(hook);
             }
         }
 
