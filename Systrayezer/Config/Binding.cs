@@ -20,6 +20,7 @@ namespace Systrayezer.Config
         public bool autostart { get; set; } = false;
         public bool starthide { get; set; } = false;
         public bool systray { get; set; } = true;
+        public bool applied { get; set; } = false;
 
         public string Hotkey { get { return GetModifiers() + "+" + key.ToString(); } }
 
@@ -144,32 +145,35 @@ namespace Systrayezer.Config
             });
         }
 
-
         public void apply(KeyboardHook hook)
         {
-            hook.KeyPressed += new EventHandler<KeyPressedEventArgs>((object eventSender, KeyPressedEventArgs ev) => {
-                if (!hidden)
+            if(!applied)
+            {
+                hook.KeyPressed += new EventHandler<KeyPressedEventArgs>((object eventSender, KeyPressedEventArgs ev) => {
+                    if (!hidden)
+                    {
+                        ExternalWindowManager.hideWindows(windowHandlers);
+                    }
+                    else
+                    {
+                        ExternalWindowManager.showWindows(windowHandlers);
+                    }
+                    hidden = !hidden;
+                });
+
+                eventKeyId = hook.RegisterHotKey(GetCombinationOfModifierKeys(), key);
+
+                if (starthide)
                 {
+                    hidden = true;
                     ExternalWindowManager.hideWindows(windowHandlers);
                 }
-                else
+
+                if (systray)
                 {
-                    ExternalWindowManager.showWindows(windowHandlers);
+                    CreateSystray(hook);
                 }
-                hidden = !hidden;
-            });
-
-            eventKeyId = hook.RegisterHotKey(GetCombinationOfModifierKeys(), key);
-
-            if (starthide)
-            {
-                hidden = true;
-                ExternalWindowManager.hideWindows(windowHandlers);
-            }
-
-            if (systray)
-            {
-                CreateSystray(hook);
+                applied = true;
             }
         }
     }

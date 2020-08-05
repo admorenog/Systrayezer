@@ -36,6 +36,9 @@ namespace Systrayezer
             column.DataPropertyName = "GetHotkey";
             column.Name = "HotKey";
             //dataGridBindings.Columns.Add(column);
+            column.DataPropertyName = "GetHotkey";
+            column.Name = "HotKey";
+            //dataGridBindings.Columns.Add(column);
         }
 
         private void Main_Dispose(bool disposing)
