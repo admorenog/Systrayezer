@@ -27,18 +27,44 @@ namespace Systrayezer
 
         private void Main_Load(object sender, EventArgs e)
         {
-            Collection<Config.Binding> bindings = UserConfig.config.bindings;
-            dataGridBindings.AutoGenerateColumns = true;
-            dataGridBindings.DataSource = bindings;
-            dataGridBindings.AutoResizeColumns();
-
+            dataGridBindings.AutoGenerateColumns = false;
+            dataGridBindings.DataSource = UserConfig.config.bindings;
             DataGridViewColumn column = new DataGridViewTextBoxColumn();
-            column.DataPropertyName = "GetHotkey";
+            column.DataPropertyName = "HotKey";
             column.Name = "HotKey";
-            //dataGridBindings.Columns.Add(column);
-            column.DataPropertyName = "GetHotkey";
-            column.Name = "HotKey";
-            //dataGridBindings.Columns.Add(column);
+            column.ReadOnly = true;
+            dataGridBindings.Columns.Add(column);
+            column = new DataGridViewTextBoxColumn();
+            column.DataPropertyName = "application";
+            column.Name = "Application";
+            column.ReadOnly = true;
+            dataGridBindings.Columns.Add(column);
+            column = new DataGridViewCheckBoxColumn();
+            column.DataPropertyName = "autostart";
+            column.Name = "Auto Start";
+            column.ReadOnly = true;
+            dataGridBindings.Columns.Add(column);
+            column = new DataGridViewCheckBoxColumn();
+            column.DataPropertyName = "starthide";
+            column.Name = "Start Hide";
+            column.ReadOnly = true;
+            dataGridBindings.Columns.Add(column);
+            column = new DataGridViewCheckBoxColumn();
+            column.DataPropertyName = "systray";
+            column.Name = "Systray";
+            column.ReadOnly = true;
+            dataGridBindings.Columns.Add(column);
+            column = new DataGridViewCheckBoxColumn();
+            column.DataPropertyName = "applied";
+            column.Name = "Running";
+            column.ReadOnly = true;
+            dataGridBindings.Columns.Add(column);
+            column = new DataGridViewCheckBoxColumn();
+            column.DataPropertyName = "hidden";
+            column.Name = "Hidden";
+            column.ReadOnly = true;
+            dataGridBindings.Columns.Add(column);
+            dataGridBindings.AutoResizeColumns();
         }
 
         private void Main_Dispose(bool disposing)

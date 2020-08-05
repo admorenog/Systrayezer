@@ -15,14 +15,15 @@ namespace Systrayezer.Config
         public Keys key { get; set; }
         public string getAppBy { get; set; }
         public string app { get; set; }
-        public bool hidden { get; set; } = false;
+
+        public bool hidden = false;
         public int eventKeyId { get; set; } = 0;
         public bool autostart { get; set; } = false;
         public bool starthide { get; set; } = false;
         public bool systray { get; set; } = true;
         public bool applied { get; set; } = false;
-
         public string Hotkey { get { return GetModifiers() + "+" + key.ToString(); } }
+        public string application { get { return getAppBy + "(" + app + ")"; } }
 
         public Collection<IntPtr> windowHandlers { get; set; } = new Collection<IntPtr>();
 

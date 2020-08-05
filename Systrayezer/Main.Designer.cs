@@ -35,6 +35,7 @@ namespace Systrayezer
             this.dataGridBindings = new System.Windows.Forms.DataGridView();
             this.btnAddBinding = new System.Windows.Forms.Button();
             this.btnDelBinding = new System.Windows.Forms.Button();
+            this.btnEditBinding = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridBindings)).BeginInit();
             this.SuspendLayout();
@@ -64,7 +65,7 @@ namespace Systrayezer
             // 
             // btnApplyHotkeys
             // 
-            this.btnApplyHotkeys.Location = new System.Drawing.Point(693, 317);
+            this.btnApplyHotkeys.Location = new System.Drawing.Point(693, 319);
             this.btnApplyHotkeys.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnApplyHotkeys.Name = "btnApplyHotkeys";
             this.btnApplyHotkeys.Size = new System.Drawing.Size(125, 30);
@@ -87,25 +88,35 @@ namespace Systrayezer
             // 
             this.btnAddBinding.Location = new System.Drawing.Point(17, 319);
             this.btnAddBinding.Name = "btnAddBinding";
-            this.btnAddBinding.Size = new System.Drawing.Size(32, 28);
+            this.btnAddBinding.Size = new System.Drawing.Size(70, 30);
             this.btnAddBinding.TabIndex = 3;
-            this.btnAddBinding.Text = "+";
+            this.btnAddBinding.Text = "add";
             this.btnAddBinding.UseVisualStyleBackColor = true;
             // 
             // btnDelBinding
             // 
-            this.btnDelBinding.Location = new System.Drawing.Point(55, 319);
+            this.btnDelBinding.Location = new System.Drawing.Point(93, 319);
             this.btnDelBinding.Name = "btnDelBinding";
-            this.btnDelBinding.Size = new System.Drawing.Size(32, 28);
+            this.btnDelBinding.Size = new System.Drawing.Size(70, 30);
             this.btnDelBinding.TabIndex = 4;
-            this.btnDelBinding.Text = "-";
+            this.btnDelBinding.Text = "remove";
             this.btnDelBinding.UseVisualStyleBackColor = true;
+            // 
+            // btnEditBinding
+            // 
+            this.btnEditBinding.Location = new System.Drawing.Point(169, 319);
+            this.btnEditBinding.Name = "btnEditBinding";
+            this.btnEditBinding.Size = new System.Drawing.Size(70, 30);
+            this.btnEditBinding.TabIndex = 5;
+            this.btnEditBinding.Text = "edit";
+            this.btnEditBinding.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 358);
+            this.Controls.Add(this.btnEditBinding);
             this.Controls.Add(this.btnDelBinding);
             this.Controls.Add(this.btnAddBinding);
             this.Controls.Add(this.dataGridBindings);
@@ -138,6 +149,7 @@ namespace Systrayezer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.Button btnAddBinding;
         private System.Windows.Forms.Button btnDelBinding;
+        private System.Windows.Forms.Button btnEditBinding;
     }
 }
 
