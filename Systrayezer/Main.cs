@@ -5,8 +5,10 @@ using System.Windows.Forms;
 
 namespace Systrayezer
 {
+
     public partial class Main : Form
     {
+        
         private KeyboardHook hook = new KeyboardHook();
         public Main()
         {

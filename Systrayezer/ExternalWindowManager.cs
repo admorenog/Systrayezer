@@ -31,25 +31,27 @@ namespace Systrayezer
         private const int WS_EX_TOOLWINDOW = 0x00000080;
         private const int WS_EX_APPWINDOW = 0x00040000;
 
-        public const int GCL_HICONSM = -34;
-        public const int GCL_HICON = -14;
+        private const int GCL_HICONSM = -34;
+        private const int GCL_HICON = -14;
 
-        public const int ICON_SMALL = 0;
-        public const int ICON_BIG = 1;
-        public const int ICON_SMALL2 = 2;
+        private const int ICON_SMALL = 0;
+        private const int ICON_BIG = 1;
+        private const int ICON_SMALL2 = 2;
 
-        public const int WM_GETICON = 0x7F;
+        private const int WM_GETICON = 0x7F;
 
-        private const UInt32 WM_CLOSE = 0x0010;
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        private const int WM_CLOSE = 0x0010;
 
         [DllImport("user32.dll")]
-        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [DllImport("user32.dll")]
-        static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr WindowHandle);
+
+        [DllImport("user32.dll")]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
         [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
         private static extern int SetWindowLong32(HandleRef hWnd, int nIndex, int dwNewLong);
@@ -58,22 +60,22 @@ namespace Systrayezer
         private static extern IntPtr SetWindowLongPtr64(HandleRef hWnd, int nIndex, IntPtr dwNewLong);
 
         [DllImport("user32.dll")]
-        static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string lclassName, string windowTitle);
+        private static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string lclassName, string windowTitle);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll", EntryPoint = "GetClassLong")]
-        public static extern uint GetClassLongPtr32(IntPtr hWnd, int nIndex);
+        private static extern uint GetClassLongPtr32(IntPtr hWnd, int nIndex);
 
         [DllImport("user32.dll", EntryPoint = "GetClassLongPtr")]
-        public static extern IntPtr GetClassLongPtr64(IntPtr hWnd, int nIndex);
+        private static extern IntPtr GetClassLongPtr64(IntPtr hWnd, int nIndex);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
-        static extern IntPtr SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
         /**
          * We should def all this winapi functions to detect if the
@@ -92,7 +94,7 @@ namespace Systrayezer
             SendMessage(hwnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
         }
 
-        public static IntPtr GetClassLongPtr(IntPtr hWnd, int nIndex)
+        private static IntPtr GetClassLongPtr(IntPtr hWnd, int nIndex)
         {
             if (IntPtr.Size > 4)
                 return GetClassLongPtr64(hWnd, nIndex);
@@ -144,6 +146,7 @@ namespace Systrayezer
                 SetWindowLong(windowHandle, GWL_EXSTYLE, style);
                 ShowWindow(windowHandle, SW_HIDE);
                 ShowWindow(windowHandle, SW_SHOW);
+                SetForegroundWindow(windowHandle);
             }
         }
 

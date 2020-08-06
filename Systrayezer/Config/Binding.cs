@@ -15,7 +15,6 @@ namespace Systrayezer.Config
         public Keys key { get; set; }
         public string getAppBy { get; set; }
         public string app { get; set; }
-
         public bool hidden = false;
         public int eventKeyId { get; set; } = 0;
         public bool autostart { get; set; } = false;
@@ -160,6 +159,8 @@ namespace Systrayezer.Config
                         ExternalWindowManager.showWindows(windowHandlers);
                     }
                     hidden = !hidden;
+                    // Main.dataGridBindings.Refresh();
+                    Console.WriteLine(UserConfig.config.bindings[0].hidden);
                 });
 
                 eventKeyId = hook.RegisterHotKey(GetCombinationOfModifierKeys(), key);
