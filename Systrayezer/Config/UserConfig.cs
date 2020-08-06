@@ -17,8 +17,8 @@ namespace Systrayezer
         
         public UserConfig()
         {
+            // TODO: checks if we can read the config or we must create a new one.
             configAppPath = configPath + Path.DirectorySeparatorChar + appName + Path.DirectorySeparatorChar + configFileName + configFileExtension;
-            
             config = ReadConfig(configAppPath);
         }
 

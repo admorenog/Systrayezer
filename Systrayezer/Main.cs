@@ -10,8 +10,11 @@ namespace Systrayezer
     {
         
         private KeyboardHook hook = new KeyboardHook();
+
+        public static DataGridView datagrid;
         public Main()
         {
+            // TODO: check for another instance and try to kill it restoring all hidden windows.
             InitializeComponent();
             new UserConfig();
 
@@ -25,6 +28,7 @@ namespace Systrayezer
                     binding.apply(hook);
                 }
             }
+            datagrid = dataGridBindings;
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -101,5 +105,6 @@ namespace Systrayezer
             }
             base.Dispose();
         }
+
     }
 }
