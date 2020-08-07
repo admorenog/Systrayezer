@@ -19,6 +19,8 @@ namespace Systrayezer.Config
         public int eventKeyId { get; set; } = 0;
         public bool autostart { get; set; } = false;
         public bool starthide { get; set; } = false;
+        public IntPtr _restorePosition { get; set; } = ExternalWindowManager.HWND_TOPMOST;
+        public string restorePosition { get { return getRestorePosition(); } }
         public bool systray { get; set; } = true;
         public bool applied { get; set; } = false;
         public string Hotkey { get { return GetModifiers() + "+" + key.ToString(); } }
@@ -191,5 +193,28 @@ namespace Systrayezer.Config
                 }
             }
         }
+
+        private string getRestorePosition()
+        {
+            string positionAsText = "";
+            if(_restorePosition == ExternalWindowManager.HWND_BOTTOM)
+            {
+                positionAsText = "bottom";
+            }
+            else if(_restorePosition == ExternalWindowManager.HWND_NOTOPMOST)
+            {
+                positionAsText = "no top most";
+            }
+            else if (_restorePosition == ExternalWindowManager.HWND_TOP)
+            {
+                positionAsText = "top";
+            }
+            else if (_restorePosition == ExternalWindowManager.HWND_TOPMOST)
+            {
+                positionAsText = "top most";
+            }
+            return positionAsText;
+        }
+
     }
 }

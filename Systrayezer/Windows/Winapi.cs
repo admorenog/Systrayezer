@@ -28,6 +28,7 @@ namespace Systrayezer
 
         public const int GWL_STYLE = -16;
         public const int GWL_EXSTYLE = -20;
+
         public const int WS_VISIBLE = 0x10000000;
         public const int WS_EX_TOPMOST = 0x00000008;
         public const int WS_EX_TOOLWINDOW = 0x00000080;

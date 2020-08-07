@@ -16,18 +16,11 @@ namespace Systrayezer
         {
             // TODO: check for another instance and try to kill it restoring all hidden windows.
             InitializeComponent();
+
             new UserConfig();
 
-            Collection<Config.Binding> bindings = UserConfig.config.bindings;
+            UserConfig.config.applyBindings(hook);
 
-            for (int idxBinding = 0; idxBinding < bindings.Count; idxBinding++)
-            {
-                Config.Binding binding = bindings.ElementAt(idxBinding);
-                if (binding.autostart)
-                {
-                    binding.apply(hook);
-                }
-            }
             datagrid = dataGridBindings;
         }
 
@@ -70,6 +63,11 @@ namespace Systrayezer
             column.Name = "Hidden";
             column.ReadOnly = true;
             dataGridBindings.Columns.Add(column);
+            column = new DataGridViewTextBoxColumn();
+            column.DataPropertyName = "restorePosition";
+            column.Name = "Restore position";
+            column.ReadOnly = true;
+            dataGridBindings.Columns.Add(column);
             dataGridBindings.AutoResizeColumns();
         }
 
@@ -85,16 +83,7 @@ namespace Systrayezer
 
         private void BtnApplyHotkeys_Click(object sender, EventArgs e)
         {
-            Collection<Config.Binding> bindings = UserConfig.config.bindings;
-
-            for(int idxBinding = 0; idxBinding < bindings.Count; idxBinding++)
-            {
-                Config.Binding binding = bindings.ElementAt(idxBinding);
-                if(binding.eventKeyId == 0)
-                {
-                    binding.apply(hook);
-                }
-            }
+            UserConfig.config.applyBindings(hook);
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -104,6 +93,7 @@ namespace Systrayezer
                 components.Dispose();
             }
             base.Dispose();
+            Application.Exit();
         }
 
     }
