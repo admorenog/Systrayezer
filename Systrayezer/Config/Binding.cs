@@ -93,12 +93,15 @@ namespace Systrayezer.Config
 
                 switch(modifier)
                 {
-                    case ModifierKeys.Alt: modifierName = "Alt"; break;
-                    case ModifierKeys.Control: modifierName = "Control"; break;
-                    case ModifierKeys.Shift: modifierName = "Shift"; break;
-                    case ModifierKeys.Win: modifierName = "Win"; break;
+                    case ModifierKeys.Alt: modifierName = "alt"; break;
+                    case ModifierKeys.Control: modifierName = "ctrl"; break;
+                    case ModifierKeys.Shift: modifierName = "shift"; break;
+                    case ModifierKeys.Win: modifierName = "win"; break;
                 }
-
+                if(combination != string.Empty)
+                {
+                    combination += "+";
+                }
                 combination += modifierName;
             }
             return combination;
@@ -163,7 +166,6 @@ namespace Systrayezer.Config
                     }
                     hidden = !hidden;
                     Main.datagrid.Refresh();
-                    Console.WriteLine(UserConfig.config.bindings[0].hidden);
                 });
 
                 try {

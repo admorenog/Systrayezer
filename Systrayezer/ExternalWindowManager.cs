@@ -68,6 +68,11 @@ namespace Systrayezer
             }
         }
 
+        public static void setWindowMostTop(IntPtr windowHandle)
+        {
+            SetWindowPos(windowHandle, HWND_TOP, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE | SWP_NOMOVE);
+        }
+
         public static Collection<IntPtr> GetAllWindowsFromProcessName(string processName)
         {
             Process[] processes = Process.GetProcessesByName(processName);

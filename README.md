@@ -15,4 +15,4 @@ Sometimes we work with applications that don't allow "minimize to Systray". This
 - Hide our systray icon.
 - Manage errors (cannot found a window with the description, maybe search it every 5 seconds?)
 - Get process name by selecting a window (something like spy++), some windows have different process name in Task manager and we cannot reach it.
-- Scale the app giving more options to "edit" the external window.
+- Scale the app giving more options to "edit" the external window (quake style, borderless, windowed, full screen, etc).
