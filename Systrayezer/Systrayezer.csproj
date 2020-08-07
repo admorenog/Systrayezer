@@ -63,7 +63,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Config\UserConfig.cs" />
-    <Compile Include="Winapi.cs" />
+    <Compile Include="Windows\Winapi.cs" />
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
