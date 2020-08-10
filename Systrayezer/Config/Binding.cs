@@ -50,6 +50,8 @@ namespace Systrayezer.Config
                 }
             }
 
+
+            // FIXME: try to assign ñ or any extended keyboard layout
             string assignedKey = configLine.Elements().Where(x => x.Name == "key").First().Value.ToUpper();
             var values = Enum.GetValues(typeof(Keys));
             Keys keyToSet;
@@ -66,6 +68,7 @@ namespace Systrayezer.Config
             starthide = bool.Parse(configLine.Elements().Where(x => x.Name == "starthide").First().Value);
             systray = bool.Parse(configLine.Elements().Where(x => x.Name == "systray").First().Value);
 
+            //TODO: make this async to search the window if not exists and updating the messageStatus property
             if (windowHandlers.Count() == 0)
             {
                 switch (getAppBy)
