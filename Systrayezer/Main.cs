@@ -96,5 +96,20 @@ namespace Systrayezer
             Application.Exit();
         }
 
+        private void keypress(object sender, KeyEventArgs e)
+        {
+            var values = Enum.GetValues(typeof(Keys));
+            Keys keyToSet = e.KeyCode;
+            Console.WriteLine(keyToSet.ToString());
+            Console.WriteLine("KeyValue " + e.KeyValue);
+            Console.WriteLine("KeyCode " + e.KeyCode);
+            Console.WriteLine("KeyData " + e.KeyData);
+        }
+
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

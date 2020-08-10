@@ -51,17 +51,9 @@ namespace Systrayezer.Config
             }
 
 
-            // FIXME: try to assign ñ or any extended keyboard layout
             string assignedKey = configLine.Elements().Where(x => x.Name == "key").First().Value.ToUpper();
-            var values = Enum.GetValues(typeof(Keys));
-            Keys keyToSet;
-            try {
-                Enum.TryParse(assignedKey, out keyToSet);
-            } catch (Exception) {
-                throw new Exception("Cannot find the key " + assignedKey);
-            }
 
-            key = keyToSet;
+            key = getKey(assignedKey);
             getAppBy = configLine.Elements().Where(x => x.Name == "app").First().Attribute("refBy").Value;
             app = configLine.Elements().Where(x => x.Name == "app").First().Value;
             autostart = bool.Parse(configLine.Elements().Where(x => x.Name == "autostart").First().Value);
@@ -77,6 +69,22 @@ namespace Systrayezer.Config
                     case "ProcessName": windowHandlers = ExternalWindowManager.GetAllWindowsFromProcessName(app); break;
                 }
             }
+        }
+
+        private Keys getKey(string assignedKey)
+        {
+            // FIXME: try to assign ñ or any extended keyboard layout
+            var values = Enum.GetValues(typeof(Keys));
+            Keys keyToSet;
+            try
+            {
+                Enum.TryParse(assignedKey, out keyToSet);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Cannot find the key " + assignedKey);
+            }
+            return keyToSet;
         }
 
         public ModifierKeys GetCombinationOfModifierKeys()
