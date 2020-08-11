@@ -36,7 +36,6 @@ namespace Systrayezer
             this.btnAddBinding = new System.Windows.Forms.Button();
             this.btnDelBinding = new System.Windows.Forms.Button();
             this.btnEditBinding = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridBindings)).BeginInit();
             this.SuspendLayout();
@@ -67,7 +66,7 @@ namespace Systrayezer
             // btnApplyHotkeys
             // 
             this.btnApplyHotkeys.Location = new System.Drawing.Point(520, 259);
-            this.btnApplyHotkeys.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnApplyHotkeys.Margin = new System.Windows.Forms.Padding(2);
             this.btnApplyHotkeys.Name = "btnApplyHotkeys";
             this.btnApplyHotkeys.Size = new System.Drawing.Size(94, 24);
             this.btnApplyHotkeys.TabIndex = 0;
@@ -87,17 +86,18 @@ namespace Systrayezer
             // btnAddBinding
             // 
             this.btnAddBinding.Location = new System.Drawing.Point(13, 259);
-            this.btnAddBinding.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAddBinding.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddBinding.Name = "btnAddBinding";
             this.btnAddBinding.Size = new System.Drawing.Size(52, 24);
             this.btnAddBinding.TabIndex = 3;
             this.btnAddBinding.Text = "add";
             this.btnAddBinding.UseVisualStyleBackColor = true;
+            this.btnAddBinding.Click += new System.EventHandler(this.btnAddBinding_Click);
             // 
             // btnDelBinding
             // 
             this.btnDelBinding.Location = new System.Drawing.Point(70, 259);
-            this.btnDelBinding.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDelBinding.Margin = new System.Windows.Forms.Padding(2);
             this.btnDelBinding.Name = "btnDelBinding";
             this.btnDelBinding.Size = new System.Drawing.Size(52, 24);
             this.btnDelBinding.TabIndex = 4;
@@ -107,45 +107,34 @@ namespace Systrayezer
             // btnEditBinding
             // 
             this.btnEditBinding.Location = new System.Drawing.Point(127, 259);
-            this.btnEditBinding.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnEditBinding.Margin = new System.Windows.Forms.Padding(2);
             this.btnEditBinding.Name = "btnEditBinding";
             this.btnEditBinding.Size = new System.Drawing.Size(52, 24);
             this.btnEditBinding.TabIndex = 5;
             this.btnEditBinding.Text = "edit";
             this.btnEditBinding.UseVisualStyleBackColor = true;
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(199, 259);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 6;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(623, 291);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btnEditBinding);
             this.Controls.Add(this.btnDelBinding);
             this.Controls.Add(this.btnAddBinding);
             this.Controls.Add(this.dataGridBindings);
             this.Controls.Add(this.btnApplyHotkeys);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Systrayezer";
             this.Load += new System.EventHandler(this.Main_Load);
-            this.textBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.keypress);
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridBindings)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -164,7 +153,6 @@ namespace Systrayezer
         private System.Windows.Forms.Button btnAddBinding;
         private System.Windows.Forms.Button btnDelBinding;
         private System.Windows.Forms.Button btnEditBinding;
-        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

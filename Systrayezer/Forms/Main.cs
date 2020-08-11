@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Forms;
+using Systrayezer.Forms;
 
 namespace Systrayezer
 {
@@ -110,6 +111,12 @@ namespace Systrayezer
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnAddBinding_Click(object sender, EventArgs e)
+        {
+            var formEditBinding = new EditBinding();
+            formEditBinding.ShowDialog();
         }
     }
 }
