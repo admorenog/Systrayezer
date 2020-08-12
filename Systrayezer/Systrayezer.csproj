@@ -51,7 +51,7 @@
   <ItemGroup>
     <Compile Include="Config\Binding.cs" />
     <Compile Include="Config\ConfigSettings.cs" />
-    <Compile Include="ExternalWindowManager.cs" />
+    <Compile Include="Windows\ExternalWindowManager.cs" />
     <Compile Include="Config\IConfigSetting.cs" />
     <Compile Include="Forms\EditBinding.cs">
       <SubType>Form</SubType>
@@ -59,7 +59,7 @@
     <Compile Include="Forms\EditBinding.Designer.cs">
       <DependentUpon>EditBinding.cs</DependentUpon>
     </Compile>
-    <Compile Include="KeyboardHook.cs" />
+    <Compile Include="Windows\KeyboardHook.cs" />
     <Compile Include="Forms\Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +69,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Config\UserConfig.cs" />
+    <Compile Include="Windows\MouseHook.cs" />
     <Compile Include="Windows\Winapi.cs" />
     <EmbeddedResource Include="Forms\EditBinding.resx">
       <DependentUpon>EditBinding.cs</DependentUpon>

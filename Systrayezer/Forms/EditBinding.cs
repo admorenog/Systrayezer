@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Systrayezer.Windows;
 
 namespace Systrayezer.Forms
 {
@@ -44,6 +45,17 @@ namespace Systrayezer.Forms
             }
 
             tbKeyBinding.Text = keyPressedAsText;
+        }
+
+        private void btnSelectApp_Click(object sender, EventArgs e)
+        {
+            MouseHook.Start();
+            MouseHook.MouseAction += new EventHandler(Event);
+        }
+
+        private void Event(object sender, EventArgs e)
+        {
+            Console.WriteLine(e.ToString());
         }
     }
 }

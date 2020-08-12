@@ -37,12 +37,14 @@ namespace Systrayezer.Forms
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.btnSelectApp = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tbKeyBinding
             // 
             this.tbKeyBinding.Location = new System.Drawing.Point(45, 6);
             this.tbKeyBinding.Name = "tbKeyBinding";
+            this.tbKeyBinding.ReadOnly = true;
             this.tbKeyBinding.Size = new System.Drawing.Size(100, 20);
             this.tbKeyBinding.TabIndex = 7;
             this.tbKeyBinding.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keydown);
@@ -67,8 +69,10 @@ namespace Systrayezer.Forms
             // 
             // textBox2
             // 
+            this.textBox2.Enabled = false;
             this.textBox2.Location = new System.Drawing.Point(231, 6);
             this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(100, 20);
             this.textBox2.TabIndex = 9;
             // 
@@ -102,11 +106,22 @@ namespace Systrayezer.Forms
             this.checkBox3.Text = "systray";
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
+            // btnSelectApp
+            // 
+            this.btnSelectApp.Location = new System.Drawing.Point(231, 32);
+            this.btnSelectApp.Name = "btnSelectApp";
+            this.btnSelectApp.Size = new System.Drawing.Size(100, 23);
+            this.btnSelectApp.TabIndex = 14;
+            this.btnSelectApp.Text = "Select App";
+            this.btnSelectApp.UseVisualStyleBackColor = true;
+            this.btnSelectApp.Click += new System.EventHandler(this.btnSelectApp_Click);
+            // 
             // EditBinding
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(340, 110);
+            this.Controls.Add(this.btnSelectApp);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
@@ -131,5 +146,6 @@ namespace Systrayezer.Forms
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.Button btnSelectApp;
     }
 }
