@@ -95,5 +95,19 @@ namespace Systrayezer
             windowHandlers.Add(windowHandle);
             return windowHandlers;
         }
+
+        public static void GetAllWindowCaptions()
+        {
+            Process[] processlist = Process.GetProcesses();
+
+            foreach (Process process in processlist)
+            {
+                if (!string.IsNullOrEmpty(process.MainWindowTitle) && IsWindowVisible(process.MainWindowHandle))
+                {
+                    Console.WriteLine("Process: {0} ID: {1} Window title: {2}", process.ProcessName, process.Id, process.MainWindowTitle);
+                }
+            }
+        }
+
     }
 }

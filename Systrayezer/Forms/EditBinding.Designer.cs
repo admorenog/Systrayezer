@@ -38,6 +38,7 @@ namespace Systrayezer.Forms
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.btnSelectApp = new System.Windows.Forms.Button();
+            this.btnSaveBinding = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tbKeyBinding
@@ -116,11 +117,21 @@ namespace Systrayezer.Forms
             this.btnSelectApp.UseVisualStyleBackColor = true;
             this.btnSelectApp.Click += new System.EventHandler(this.btnSelectApp_Click);
             // 
+            // btnSaveBinding
+            // 
+            this.btnSaveBinding.Location = new System.Drawing.Point(231, 72);
+            this.btnSaveBinding.Name = "btnSaveBinding";
+            this.btnSaveBinding.Size = new System.Drawing.Size(100, 23);
+            this.btnSaveBinding.TabIndex = 15;
+            this.btnSaveBinding.Text = "save";
+            this.btnSaveBinding.UseVisualStyleBackColor = true;
+            // 
             // EditBinding
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(340, 110);
+            this.ClientSize = new System.Drawing.Size(340, 103);
+            this.Controls.Add(this.btnSaveBinding);
             this.Controls.Add(this.btnSelectApp);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
@@ -147,5 +158,6 @@ namespace Systrayezer.Forms
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.Button btnSelectApp;
+        private System.Windows.Forms.Button btnSaveBinding;
     }
 }

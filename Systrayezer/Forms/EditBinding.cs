@@ -55,7 +55,7 @@ namespace Systrayezer.Forms
 
         private void Event(object sender, EventArgs e)
         {
-            Console.WriteLine(e.ToString());
+            ExternalWindowManager.GetAllWindowCaptions();
         }
     }
 }
