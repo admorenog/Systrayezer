@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace Systrayezer
 {
@@ -102,7 +103,17 @@ namespace Systrayezer
 
             foreach (Process process in processlist)
             {
-                if (!string.IsNullOrEmpty(process.MainWindowTitle) && IsWindowVisible(process.MainWindowHandle))
+
+                /**
+                 The windows store apps are visible but also cloaked, so we need to check it too
+                 */
+                DwmGetWindowAttribute(
+                    process.MainWindowHandle,
+                    DWMWINDOWATTRIBUTE.Cloaked,
+                    out bool isCloaked,
+                    Marshal.SizeOf(typeof(bool))
+                );
+                if (!string.IsNullOrEmpty(process.MainWindowTitle) && IsWindowVisible(process.MainWindowHandle) && !isCloaked)
                 {
                     Console.WriteLine("Process: {0} ID: {1} Window title: {2}", process.ProcessName, process.Id, process.MainWindowTitle);
                 }

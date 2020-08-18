@@ -117,7 +117,30 @@ namespace Systrayezer
         static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, int uFlags);
 
         [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool IsWindowVisible(IntPtr hWnd);
 
+
+        [DllImport("dwmapi.dll")]
+        static extern int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE dwAttribute, out bool pvAttribute, int cbAttribute);
+
+        enum DWMWINDOWATTRIBUTE : uint
+        {
+            NCRenderingEnabled = 1,
+            NCRenderingPolicy,
+            TransitionsForceDisabled,
+            AllowNCPaint,
+            CaptionButtonBounds,
+            NonClientRtlLayout,
+            ForceIconicRepresentation,
+            Flip3DPolicy,
+            ExtendedFrameBounds,
+            HasIconicBitmap,
+            DisallowPeek,
+            ExcludedFromPeek,
+            Cloak,
+            Cloaked,
+            FreezeRepresentation
+        }
     }
 }
