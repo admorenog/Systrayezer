@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Forms;
 using Systrayezer.Forms;
+using Systrayezer.Windows;
 
 namespace Systrayezer
 {
@@ -115,7 +114,7 @@ namespace Systrayezer
 
         private void btnAddBinding_Click(object sender, EventArgs e)
         {
-            var formEditBinding = new EditBinding();
+            Form formEditBinding = new EditBinding();
             formEditBinding.ShowDialog();
         }
     }

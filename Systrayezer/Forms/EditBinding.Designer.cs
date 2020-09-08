@@ -33,7 +33,7 @@ namespace Systrayezer.Forms
             this.tbKeyBinding = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            tbApp = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
@@ -68,14 +68,14 @@ namespace Systrayezer.Forms
             this.label2.TabIndex = 10;
             this.label2.Text = "Application";
             // 
-            // textBox2
+            // tbApp
             // 
-            this.textBox2.Enabled = false;
-            this.textBox2.Location = new System.Drawing.Point(231, 6);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 9;
+            tbApp.Enabled = false;
+            tbApp.Location = new System.Drawing.Point(231, 6);
+            tbApp.Name = "tbApp";
+            tbApp.ReadOnly = true;
+            tbApp.Size = new System.Drawing.Size(100, 20);
+            tbApp.TabIndex = 9;
             // 
             // checkBox1
             // 
@@ -130,14 +130,14 @@ namespace Systrayezer.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(340, 103);
+            this.ClientSize = new System.Drawing.Size(339, 102);
             this.Controls.Add(this.btnSaveBinding);
             this.Controls.Add(this.btnSelectApp);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(tbApp);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbKeyBinding);
             this.Name = "EditBinding";
@@ -153,11 +153,11 @@ namespace Systrayezer.Forms
         private System.Windows.Forms.TextBox tbKeyBinding;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.Button btnSelectApp;
         private System.Windows.Forms.Button btnSaveBinding;
+        private static System.Windows.Forms.TextBox tbApp;
     }
 }

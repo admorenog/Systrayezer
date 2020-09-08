@@ -2,8 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Systrayezer.Windows;
 
 namespace Systrayezer.Config
 {
@@ -23,7 +25,7 @@ namespace Systrayezer.Config
         public string restorePosition { get { return getRestorePosition(); } }
         public bool systray { get; set; } = true;
         public bool applied { get; set; } = false;
-        public string Hotkey { get { return GetModifiers() + "+" + key.ToString(); } }
+        public string Hotkey { get { return GetModifiers() + "+" + GetKeyUnicode(); } }
         public string application { get { return getAppBy + "(" + app + ")"; } }
         public string messageStatus { get; set; } = "";
 
@@ -71,14 +73,31 @@ namespace Systrayezer.Config
             }
         }
 
+
+        string GetKeyUnicode()
+        {
+            var buf = new StringBuilder(256);
+            var keyStates = new byte[256];
+
+            ExternalWindowManager.ToUnicodeEx((int)key, 0, keyStates, buf, buf.Capacity, 0, InputLanguage.CurrentInputLanguage.Handle);
+            return buf.ToString();
+        }
         private Keys getKey(string assignedKey)
         {
             // FIXME: try to assign ñ or any extended keyboard layout
-            var values = Enum.GetValues(typeof(Keys));
             Keys keyToSet;
             try
             {
-                Enum.TryParse(assignedKey, out keyToSet);
+                if (assignedKey.Length == 1)
+                {
+                    char asignedChar = assignedKey[0];
+                    var keyCode = ExternalWindowManager.VkKeyScanEx(asignedChar, InputLanguage.CurrentInputLanguage.Handle);
+                    keyToSet = (Keys)(keyCode & 0xFF);
+                }
+                else
+                {
+                    Enum.TryParse(assignedKey, out keyToSet);
+                }
             }
             catch (Exception)
             {

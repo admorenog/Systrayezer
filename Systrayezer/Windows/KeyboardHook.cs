@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace Systrayezer
+namespace Systrayezer.Windows
 {
     public sealed class KeyboardHook : IDisposable
     {

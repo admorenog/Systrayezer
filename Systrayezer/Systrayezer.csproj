@@ -51,6 +51,12 @@
   <ItemGroup>
     <Compile Include="Config\Binding.cs" />
     <Compile Include="Config\ConfigSettings.cs" />
+    <Compile Include="Forms\AppSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AppSelection.Designer.cs">
+      <DependentUpon>AppSelection.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ExternalWindowManager.cs" />
     <Compile Include="Config\IConfigSetting.cs" />
     <Compile Include="Forms\EditBinding.cs">
@@ -71,6 +77,10 @@
     <Compile Include="Config\UserConfig.cs" />
     <Compile Include="Windows\MouseHook.cs" />
     <Compile Include="Windows\Winapi.cs" />
+    <Compile Include="Windows\Window.cs" />
+    <EmbeddedResource Include="Forms\AppSelection.resx">
+      <DependentUpon>AppSelection.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditBinding.resx">
       <DependentUpon>EditBinding.cs</DependentUpon>
     </EmbeddedResource>

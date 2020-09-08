@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Systrayezer.Config;
 using System.Linq;
+using Systrayezer.Windows;
 
 namespace Systrayezer
 {

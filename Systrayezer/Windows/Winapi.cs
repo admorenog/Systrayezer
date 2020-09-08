@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Systrayezer
+namespace Systrayezer.Windows
 {
     partial class ExternalWindowManager
     {
@@ -14,6 +14,7 @@ namespace Systrayezer
          */
         public const int SW_HIDE = 0;
         public const int SW_SHOWNORMAL = 1;
+
         public const int SW_SHOWMINIMIZED = 2;
         public const int SW_MAXIMIZE = 3;
         public const int SW_SHOWMAXIMIZED = 3;
@@ -120,10 +121,24 @@ namespace Systrayezer
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool IsWindowVisible(IntPtr hWnd);
 
+        #region DWM functions
+
+        [DllImport("dwmapi.dll")]
+        static extern int DwmRegisterThumbnail(IntPtr dest, IntPtr src, out IntPtr thumb);
+
+        [DllImport("dwmapi.dll")]
+        static extern int DwmUnregisterThumbnail(IntPtr thumb);
+
+        [DllImport("dwmapi.dll")]
+        static extern int DwmQueryThumbnailSourceSize(IntPtr thumb, out PSIZE size);
+
+        [DllImport("dwmapi.dll")]
+        static extern int DwmUpdateThumbnailProperties(IntPtr hThumb, ref DWM_THUMBNAIL_PROPERTIES props);
 
         [DllImport("dwmapi.dll")]
         static extern int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE dwAttribute, out bool pvAttribute, int cbAttribute);
 
+        #endregion
         enum DWMWINDOWATTRIBUTE : uint
         {
             NCRenderingEnabled = 1,
@@ -142,5 +157,52 @@ namespace Systrayezer
             Cloaked,
             FreezeRepresentation
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct Rect
+        {
+            internal Rect(int left, int top, int right, int bottom)
+            {
+                Left = left;
+                Top = top;
+                Right = right;
+                Bottom = bottom;
+            }
+
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct DWM_THUMBNAIL_PROPERTIES
+        {
+            public int dwFlags;
+            public Rect rcDestination;
+            public Rect rcSource;
+            public byte opacity;
+            public bool fVisible;
+            public bool fSourceClientAreaOnly;
+        }
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct PSIZE
+        {
+            public int x;
+            public int y;
+        }
+
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        public static extern int ToUnicodeEx(int wVirtKey, uint wScanCode, byte[] lpKeyState, StringBuilder pwszBuff, int cchBuff, uint wFlags, IntPtr dwhkl);
+
+        [DllImport("user32.dll")]
+        public static extern int ToUnicode(uint virtualKeyCode, uint scanCode,
+            byte[] keyboardState,
+            [Out, MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)]
+            StringBuilder receivingBuffer,
+            int bufferSize, uint flags);
+
+        [DllImport("user32.dll")]
+        public static extern short VkKeyScanEx(char ch, IntPtr dwhkl);
     }
 }
