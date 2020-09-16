@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Input;
 using System.Xml.Linq;
 using Systrayezer.Windows;
 
@@ -13,7 +14,7 @@ namespace Systrayezer.Config
     {
         int IConfigSetting.Type { get => ConfigSettings.TypeBinding; }
 
-        private ModifierKeys[] modifiers = new ModifierKeys[0];
+        private Systrayezer.Windows.ModifierKeys[] modifiers = new Systrayezer.Windows.ModifierKeys[0];
         public Keys key { get; set; }
         public string getAppBy { get; set; }
         public string app { get; set; }
@@ -36,15 +37,15 @@ namespace Systrayezer.Config
             string[] modifiersAsString = configLine.Elements()
                 .Where(x => x.Name == "modifiers").Elements()
                 .Select(x => x.Value).ToArray();
-            modifiers = new ModifierKeys[modifiersAsString.Length];
+            modifiers = new Systrayezer.Windows.ModifierKeys[modifiersAsString.Length];
             for (int idxModifier = 0; idxModifier < modifiersAsString.Length; idxModifier++)
             {
                 switch(modifiersAsString[idxModifier])
                 {
-                    case "ctrl":  modifiers[idxModifier] = ModifierKeys.Control; break;
-                    case "alt":   modifiers[idxModifier] = ModifierKeys.Alt; break;
-                    case "shift": modifiers[idxModifier] = ModifierKeys.Shift; break;
-                    case "win":   modifiers[idxModifier] = ModifierKeys.Win; break;
+                    case "ctrl":  modifiers[idxModifier] = Systrayezer.Windows.ModifierKeys.Control; break;
+                    case "alt":   modifiers[idxModifier] = Systrayezer.Windows.ModifierKeys.Alt; break;
+                    case "shift": modifiers[idxModifier] = Systrayezer.Windows.ModifierKeys.Shift; break;
+                    case "win":   modifiers[idxModifier] = Systrayezer.Windows.ModifierKeys.Win; break;
                     default: throw new Exception(
                             "modifier not found " + modifiers[idxModifier] +
                             ". Possible values are ctrl, alt, shift and win."
@@ -78,13 +79,12 @@ namespace Systrayezer.Config
         {
             var buf = new StringBuilder(256);
             var keyStates = new byte[256];
-
-            ExternalWindowManager.ToUnicodeEx((int)key, 0, keyStates, buf, buf.Capacity, 0, InputLanguage.CurrentInputLanguage.Handle);
+            int vk = KeyInterop.VirtualKeyFromKey((Key)key);
+            ExternalWindowManager.ToUnicodeEx(vk, 0, keyStates, buf, buf.Capacity, 0, InputLanguage.CurrentInputLanguage.Handle);
             return buf.ToString();
         }
         private Keys getKey(string assignedKey)
         {
-            // FIXME: try to assign ñ or any extended keyboard layout
             Keys keyToSet;
             try
             {
@@ -106,10 +106,10 @@ namespace Systrayezer.Config
             return keyToSet;
         }
 
-        public ModifierKeys GetCombinationOfModifierKeys()
+        public Systrayezer.Windows.ModifierKeys GetCombinationOfModifierKeys()
         {
-            ModifierKeys combination = 0;
-            foreach(ModifierKeys modifier in modifiers)
+            Systrayezer.Windows.ModifierKeys combination = 0;
+            foreach(Systrayezer.Windows.ModifierKeys modifier in modifiers)
             {
                 combination |= modifier;
             }
@@ -119,16 +119,16 @@ namespace Systrayezer.Config
         private string GetModifiers()
         {
             string combination = "";
-            foreach (ModifierKeys modifier in modifiers)
+            foreach (Systrayezer.Windows.ModifierKeys modifier in modifiers)
             {
                 string modifierName = "";
 
                 switch(modifier)
                 {
-                    case ModifierKeys.Alt: modifierName = "alt"; break;
-                    case ModifierKeys.Control: modifierName = "ctrl"; break;
-                    case ModifierKeys.Shift: modifierName = "shift"; break;
-                    case ModifierKeys.Win: modifierName = "win"; break;
+                    case Systrayezer.Windows.ModifierKeys.Alt: modifierName = "alt"; break;
+                    case Systrayezer.Windows.ModifierKeys.Control: modifierName = "ctrl"; break;
+                    case Systrayezer.Windows.ModifierKeys.Shift: modifierName = "shift"; break;
+                    case Systrayezer.Windows.ModifierKeys.Win: modifierName = "win"; break;
                 }
                 if(combination != string.Empty)
                 {
