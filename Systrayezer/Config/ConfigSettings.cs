@@ -19,7 +19,7 @@ namespace Systrayezer
             }
         }
 
-        public void applyBindings(KeyboardHook hook)
+        public void applyBindings()
         {
             Collection<Config.Binding> bindings = UserConfig.config.bindings;
 
@@ -28,7 +28,7 @@ namespace Systrayezer
                 Config.Binding binding = bindings.ElementAt(idxBinding);
                 if (binding.eventKeyId == 0)
                 {
-                    binding.apply(hook);
+                    binding.apply();
                 }
             }
         }

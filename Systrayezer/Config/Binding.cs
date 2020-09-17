@@ -30,6 +30,8 @@ namespace Systrayezer.Config
         public string application { get { return getAppBy + "(" + app + ")"; } }
         public string messageStatus { get; set; } = "";
 
+        private KeyboardHook hook;
+
         public Collection<IntPtr> windowHandlers { get; set; } = new Collection<IntPtr>();
 
         public Binding(XElement configLine)
@@ -139,7 +141,7 @@ namespace Systrayezer.Config
             return combination;
         }
 
-        public void CreateSystray(KeyboardHook hook)
+        public void CreateSystray()
         {
             NotifyIcon trayIcon = new NotifyIcon();
 
@@ -181,27 +183,28 @@ namespace Systrayezer.Config
             });
         }
 
-        public void apply(KeyboardHook hook)
+        public void apply()
         {
-            if(!applied)
+            hook = new KeyboardHook();
+            if (!applied)
             {
-                hook.KeyPressed += new EventHandler<KeyPressedEventArgs>((object eventSender, KeyPressedEventArgs ev) => {
-                    if (!hidden)
-                    {
-                        ExternalWindowManager.hideWindows(windowHandlers);
-                        messageStatus = "hidden";
-                    }
-                    else
-                    {
-                        ExternalWindowManager.showWindows(windowHandlers);
-                        messageStatus = "show";
-                    }
-                    hidden = !hidden;
-                    Main.datagrid.Refresh();
-                });
-
-                try {
+                try
+                {
                     eventKeyId = hook.RegisterHotKey(GetCombinationOfModifierKeys(), key);
+                    hook.KeyPressed += new EventHandler<KeyPressedEventArgs>((object eventSender, KeyPressedEventArgs ev) => {
+                        if (!hidden)
+                        {
+                            ExternalWindowManager.hideWindows(windowHandlers);
+                            messageStatus = "hidden";
+                        }
+                        else
+                        {
+                            ExternalWindowManager.showWindows(windowHandlers);
+                            messageStatus = "show";
+                        }
+                        hidden = !hidden;
+                        Main.datagrid.Refresh();
+                    });
 
                     if (starthide)
                     {
@@ -211,7 +214,7 @@ namespace Systrayezer.Config
 
                     if (systray)
                     {
-                        CreateSystray(hook);
+                        CreateSystray();
                     }
                     applied = true;
 

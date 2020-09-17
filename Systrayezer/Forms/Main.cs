@@ -8,8 +8,6 @@ namespace Systrayezer
 
     public partial class Main : Form
     {
-        
-        private KeyboardHook hook = new KeyboardHook();
 
         public static DataGridView datagrid;
         public Main()
@@ -19,7 +17,7 @@ namespace Systrayezer
 
             new UserConfig();
 
-            UserConfig.config.applyBindings(hook);
+            UserConfig.config.applyBindings();
 
             datagrid = dataGridBindings;
         }
@@ -83,7 +81,7 @@ namespace Systrayezer
 
         private void BtnApplyHotkeys_Click(object sender, EventArgs e)
         {
-            UserConfig.config.applyBindings(hook);
+            UserConfig.config.applyBindings();
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
